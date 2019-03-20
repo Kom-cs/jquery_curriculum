@@ -30,6 +30,17 @@
       // .eq() 引数に応じたindexの要素を指定します。
       // .addClass() クラスを追加します。
       // .removeClass() クラスを削除します。
+      $(function() {
+        $('.nav li').click(function() {
+          var tab = $(this).index();
+          $('.contents li').addClass('is-hidden').eq(tab).removeClass('is-hidden')
+        });
+      });
+      // クリックした要素のインデックス番号を取得して変数に格納
+      // 一旦全てのcontentsクラスの<li>のテキストを消す。
+      // 取得した番号の要素のis-hiddenを消去してテキストを表示。
+      // 同じ関数の中でメソッドを連続して書くことで書いた順番の処理になる。
+      // 別の関数として記述すると並列した処理になる。
     </script>
   </body>
 </html>

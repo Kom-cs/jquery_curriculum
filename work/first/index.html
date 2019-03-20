@@ -69,16 +69,83 @@
 </div>
 <script src="../../common/js/jquery.js"></script>
 <script>
-// 第1問  id='q1'の要素の文字色を赤色にせよ。
-// 第2問  id='q2'の要素をクリックしたら背景色をピンクにせよ。
-// 第3問  id='q3'の要素をクリックしたら2秒かけてフェードアウトさせよ。
-// 第4問  id='q4'の要素をクリックしたらこの要素の前後とこの要素内の前後にテキストを挿入せよ。
-// 第5問  id='q5'の要素をクリックしたらこの要素にlargeというクラスを付与せよ。
-// 第6問  id='q6'の要素をクリックしたらこの要素を2秒かけてmargin-topとmargin-leftを100pxの位置に移動させよ。
-// 第7問  id='q7'の子要素をクリックしたら、その要素のインデックス（何番目か）をconsole.log()とalert()を用いて表示させよ。
-// 第8問  id='q8'の要素をhoverしたらlargeというクラスを付与し、hoverが外れたら、クラスを削除せよ。
-// 第9問  id='q9'の要素をクリックしたらこの要素に設定してあるdata属性をconsoleに表示せよ。
-// 第10問 id='q10'の子要素をクリックしたら、その要素のインデックスと等しいid='q11'の子要素にlargeというクラスを追加せよ。
+    $(function() {
+  // 第1問  id='q1'の要素の文字色を赤色にせよ。
+    $('#q1').css('color', 'red')    //$('セレクタ').メソッド(引数１,引数２)
+    //$(セレクタ).css(プロパティ, 値)
+
+  // 第2問  id='q2'の要素をクリックしたら背景色をピンクにせよ。
+    $('#q2').click(function() {
+      $(this).css('background-color', 'cadetblue');　　
+    });
+    //$(セレクタ)クリック(引数-関数{
+    //　$(引数を適用するセレクタ).css(プロパティ、値) 
+    // })
+
+  // 第3問  id='q3'の要素をクリックしたら2秒かけてフェードアウトさせよ。
+    $('#q3').click(fadeOut);
+    function fadeOut() {
+      $(this).fadeOut(2000);
+    }
+    // $(セレクタ).clickメソッド(関数名)
+    // function 関数名(){
+    //  $(this).fadeOutメソッド(時間);
+    // }
+
+  // 第4問  id='q4'の要素をクリックしたらこの要素の前後とこの要素内の前後にテキストを挿入せよ。
+    $('#q4').click(function() {
+      $(this).prepend('DOMの中の前')
+             .append('DOMの中の後')
+             .before('DOMの前')
+             .after('DOMの後');
+    });
+  // before<要素>prepend...append</要素>after
+
+  // 第5問  id='q5'の要素をクリックしたらこの要素にlargeというクラスを付与せよ。
+    $('#q5').click(function() {
+      $(this).addClass('large')
+    });
+  // 第6問  id='q6'の要素をクリックしたらこの要素を2秒かけてmargin-topとmargin-leftを100pxの位置に移動させよ。
+    $('#q6').click(function() {
+      $(this).animate({
+        'marginLeft': 100,
+        'marginTop':100
+      }, 2000)
+    });
+    // animate({cssプロパティ}時間)
+
+  // 第7問  id='q7'の子要素をクリックしたら、その要素のインデックス（何番目か）をconsole.log()とalert()を用いて表示させよ。
+    $('#q7').find('li').click(function() {
+      var targetNum = $(this).index();
+      console.log(targetNum);
+      alert(targetNum);
+    });
+    // $(親要素).find(子要素).メソッド(引数)
+    // indexメソッド...取得した番号の要素に処理を適用するメソッド。
+    // 処理が出力なら取得した番号を出力する。
+
+  // 第8問  id='q8'の要素をhoverしたらlargeというクラスを付与し、hoverが外れたら、クラスを削除せよ。
+    $('#q8').hover(function() {
+      $(this).addClass('large');
+    }, function(){
+      $(this).removeClass('large');
+    });
+  // 第9問  id='q9'の要素をクリックしたらこの要素に設定してあるdata属性をconsoleに表示せよ。
+    $('#q9').click(function() {
+      var text = $(this).data('text');
+      console.log(text)
+    });
+    // data(key, value)...data(key)のみの場合はデータの指定ではなく取得になる。keyは文字列。
+    // HTMLに記述されているdata-text=jQuery
+
+  // 第10問 id='q10'の子要素をクリックしたら、その要素のインデックスと等しいid='q11'の子要素にlargeというクラスを追加せよ。
+    $('#q10').find('li').click(function() {
+      var num = $(this).index();
+      $('#q11').find('li').eq(num).addClass('large');
+    });
+    // 変数numにクリックした要素から取得したindexを代入。
+    // q11の中にあるindex番号の<li>を見つけて引数のクラスを追加するメソッドを適用。
+  });
 </script>
 </body>
 </html>
