@@ -55,14 +55,18 @@
       // .slideUp() 要素がスライドしながら非表示されます。
       // .next() 要素の隣の要素を取得します。これは使わなくてもできます。
       // .children() 要素の子要素を取得します。
+      // 　⇒一階層下のノード（要素）のみ取得。
       // .stop() 現在動作中のアニメーション処理を全て中止します。
+      // 　⇒引数として指定されている関数が順番に処理されないように適宜破棄する。
+      //    stopメソッドは引数なしで利用すると、現在再生しているアニメを停止し次のアニメを実行します。
+      // 　 溜まってしまった余計な処理を全消去して直後のアニメーションだけにする。
       $(function() {
-        $('.menu__list__title').hover(function() {
+        $('.menu__list').children().hover(function() {
           var list = $(this).index();
-          $('.menu__list__childList').eq(list).slideDown()
+          $('.menu__list__childList').eq(list).stop().slideDown()
         }, function() {
           var list = $(this).index();
-          $('.menu__list__childList').eq(list).slideUp()
+          $('.menu__list__childList').eq(list).stop().slideUp()
         });
       });
     </script>
