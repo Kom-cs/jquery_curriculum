@@ -88,6 +88,7 @@
       // selectボックスをクリックして言語を選び、その言語と関係のあるリストだけが表示されるプログラムです。
       // [処理の流れ]
       // ・セレクトボックスをクリックする。....$().click()
+      //    ※select要素のvalueの変化がイベントのトリガーなのでクリックは関係ない。
       // ・セレクトボックスのvalueとliのdata-category-typeが一致しているものをだけ表示させる。
       // ・Allを選択した場合のみ全てのliを表示させる。
       // [使うメソッド]
@@ -98,14 +99,44 @@
       // .change() セレクトボックスの値の変更をキャッチする関数
       // $().each() DOM要素を1つずつループ処理をする（ループ内で$(this)を使うと要素がひとつずつ取得できる）
       $(function() {
-        $('.contents').find('select').change(function(){
-          $(this).find('option').click(function() {
-            var value = $(this).val();
-            var category = $('list').find('li').data('category-type');
-              $('.list').find('li').hide() 
-          });
-        });
+        $('.select').change(function() {
+          var value = $('option:selected').val();
+        $('.list').find('li').hide();
+          if(value === 'all'){
+            $('.list').find('li').show();
+          }else {
+            $('.list').find('li').each(function(num, category) {
+              if(value === $(category).data('category-type')){      
+                $(category).show();
+              };
+            });
+           };
+        });          
       });
+      
+      // each.(第1引数, 第2引数)
+      // 第1引数⇒インデックス番号、第2引数⇒要素
+      // (第二引数に指定した要素).data('category-type')で取得したデータを持つ要素を取得。
+      // 取得した要素をshow
+    
+      // $('.select').change(function() {
+      //       var value =[];
+      //       value.push($(this).find('option:selected').val());              
+      //     });          
+      //       var category = [];
+      //       $('.list').find('li').each(function() {
+      //       category.push($(this).data('category-type'));
+      //     if(value != 'all') {
+      //        $('.list').find('li').hide().filter(function(){
+
+      //        }).show();
+      //          console.log(value)
+      //          console.log(category);
+      //     }else if(value = 'all'){
+      //         $('.list').find('li').show();
+      //         console.log('value')
+      //     };
+      //   });
     </script>
   </body>
-</html>
+  </html>

@@ -31,9 +31,9 @@
       // .addClass() クラスを追加します。
       // .removeClass() クラスを削除します。
       $(function() {
-        $('.nav li').click(function() {
+        $('.nav').find('li').click(function() {
           var tab = $(this).index();
-          $('.contents li').addClass('is-hidden').eq(tab).removeClass('is-hidden')
+          $('.contents').find('li').addClass('is-hidden').eq(tab).removeClass('is-hidden')
         });
       });
       // クリックした要素のインデックス番号を取得して変数に格納
