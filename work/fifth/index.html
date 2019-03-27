@@ -100,8 +100,8 @@
       // $().each() DOM要素を1つずつループ処理をする（ループ内で$(this)を使うと要素がひとつずつ取得できる）
       $(function() {
         $('.select').change(function() {
-          var value = $('option:selected').val();
-        $('.list').find('li').hide();
+          var value = $(this).val();
+          $('.list').find('li').hide();
           if(value === 'all'){
             $('.list').find('li').show();
           }else {
@@ -110,15 +110,31 @@
                 $(category).show();
               };
             });
-           };
+          };
         });          
       });
       
-      // each.(第1引数, 第2引数)
-      // 第1引数⇒インデックス番号、第2引数⇒要素
+      // セレクトボックス要素の値選択をchangeをイベントとして設定。
+      // 選択されたvalueを変数valueの値として取得。
+      // 一度全てのListクラスの<li>要素をhideで消去。
+      // valueの値がallのoptionを選んだ時に全ての<li>要素を再表示。
+      // それ以外の時(all以外を選んだ時)、<li>のそれぞれのdataを文字列として取得。
+      // each.(第1引数, 第2引数)を使って一つ一つの値を取得。
+      // 第1引数⇒インデックス番号、第2引数⇒要素として定義される。
+      // 第2引数であるcategoryは要素として取得されるので、valueと等しい値を持つdataを含む要素を取得出来るようになる。
       // (第二引数に指定した要素).data('category-type')で取得したデータを持つ要素を取得。
-      // 取得した要素をshow
-    
+      // valueの値が取得したdataと厳密等価演算子で合致することを条件として設定。
+      // 合致した要素のみを取得した要素をshowで再表示。
+
+      // == 等価演算子
+      // 入力されたデータをコンピュータ上で文字列を数値に変換して比較する。
+      // 文字列'10'と、数値10は両方とも数値の形式に変換される。
+      // '10' == 10。。。10 == 10。。。となるため等しい値として評価される(true)
+      // === 厳密等価演算子
+      // データを変換せずに比較する。文字列は文字列で、数値は数値で比較する。
+      // '10' === 10。。。左は文字列、右は数値なのでデータ型(データの形式)が違う。そのため違う値として評価される(false)
+      // データ型を比較して値を比較評価する。    
+
       // $('.select').change(function() {
       //       var value =[];
       //       value.push($(this).find('option:selected').val());              
@@ -128,7 +144,6 @@
       //       category.push($(this).data('category-type'));
       //     if(value != 'all') {
       //        $('.list').find('li').hide().filter(function(){
-
       //        }).show();
       //          console.log(value)
       //          console.log(category);
