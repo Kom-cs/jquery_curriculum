@@ -35,7 +35,7 @@
           // console.log(letterCount);
           var countDown = countMax - letterCount;
           $('.rest-count').html(countDown);
-          if(letterCount > 30){
+          if(countDown < 0){
             $('.rest-count').addClass('red');
           }else{
             $('.rest-count').removeClass('red')

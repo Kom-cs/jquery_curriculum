@@ -30,7 +30,7 @@
       // 右方向には右のボタンを押すと移動し、左方向には左のボタンを押すと移動する。
       // また右端にいる状態で右のボタンを押すと最初の位置に戻り、 左端にいる状態で左のボタンを押すと最後の位置に移動する。
       // data属性にprev,nextを記述してあるのでこちらを取得すると楽です。
-      // 位置情報は配列に格納しておき、右のボタンをクリックするたびに配列の添字を1追加し、
+      // 位置情報は配列に格納しておき、右のボタンをクリックするたびに配列の添字(index)を1追加し、
       // 左のボタンをクリックすると配列の添字を1減らします。
       // そうすることによって次の座標が取得できます。その座標にアニメーションさせるととても楽です。
       // [使用するメソッド]
@@ -38,6 +38,41 @@
       // .data() 要素のdata属性を取得します。
       // .width() 要素の幅を取得します。
       // .length 要素の個数を取得します。
+      $(function(){
+        var slideCurrent = 0;
+          // console.log(slideCurrent);
+        var slideWidth = $('.slider-area').width();
+          // console.log(slideWidth);
+        var slideLength = $('.slider-list li').length;
+          // console.log(slideLength);
+        $('.slider-ctrl-btn').click(function(){
+          var btnData = $(this).data('ctrl');
+          var sliding = function() {
+            $('.slider-list').animate({
+              left:slideCurrent *-slideWidth
+            });
+          }
+          // console.log(btnData);
+          if(btnData === 'next'){
+            slideCurrent++;
+            sliding();
+            // console.log(slideCurrent);
+            if(slideCurrent > 3){
+              $('.slider-list').animate({
+              left:0
+            });              
+            }
+          }else if(btnData === 'prev'){
+            slideCurrent--;
+            sliding();
+            if(slideCurrent < 0){
+              $('.slider-list').animate({
+                left:slideCurrent *-slideLength
+              })
+            } 
+          }
+        });
+      });
     </script>
   </body>
 </html>
