@@ -42,6 +42,30 @@
       // .offset().top 要素の位置を取得します。
       // .fadeIn() 要素をフェードインさせる。
       // .fadeOut() 要素をフェードアウトさせる。
+      $(function(){
+        $(window).scroll(function() {
+          var scrHeight = $(this).scrollTop();
+          if(scrHeight > 100){
+            $('.scrollTopBtn').fadeIn(500);
+          }else{
+            $('.scrollTopBtn').fadeOut(500);
+          }
+        });
+        $('.scrollTopBtn').click(function(){
+          $('html, body').animate({ scrollTop:0});
+        });
+        $('.menu__btn').click(function(){
+          var scrollData = $(this).data('scroll-place-type');
+          $('.title').each(function(num, titleText){
+            if(scrollData === $(titleText).data('scroll-place-type')){
+              var elementTop = $(titleText).offset().top;
+              $('html, body').animate({ scrollTop: elementTop });
+              // console.log(scrollData);
+              // console.log(elementTop);
+            }
+          });
+        });
+      });
     </script>
   </body>
 </html>

@@ -39,7 +39,7 @@
       // .width() 要素の幅を取得します。
       // .length 要素の個数を取得します。
       $(function(){
-        var slideCurrent = 0;
+        var slideCurrent = $('.slider-list li').index();
           // console.log(slideCurrent);
         var slideWidth = $('.slider-area').width();
           // console.log(slideWidth);
@@ -48,9 +48,9 @@
         $('.slider-ctrl-btn').click(function(){
           var btnData = $(this).data('ctrl');
           var sliding = function() {
-            $('.slider-list').animate({
+            $('.slider-list').stop().animate({
               left:slideCurrent *-slideWidth
-            });
+            },500);
           }
           // console.log(btnData);
           if(btnData === 'next'){
@@ -58,18 +58,20 @@
             sliding();
             // console.log(slideCurrent);
             if(slideCurrent > 3){
-              $('.slider-list').animate({
-              left:0
-            });              
+              $('.slider-list').stop().animate({
+                left:0
+              },500);
+              slideCurrent = 0;
             }
           }else if(btnData === 'prev'){
             slideCurrent--;
             sliding();
             if(slideCurrent < 0){
-              $('.slider-list').animate({
-                left:slideCurrent *-slideLength
-              })
-            } 
+              $('.slider-list').stop().animate({
+                left:3*-slideWidth
+              },500);
+              slideCurrent = 3;
+            }
           }
         });
       });
