@@ -14,8 +14,8 @@
       <div class="slider-wrap">
         <div class="slider-area">
           <ul class="slider-list clearfix">
-            <li><img src="./img/1.jpg"></li>
-            <li><img src="./img/2.jpg"></li>
+            <li><img class = "unique" src="./img/1.jpg"></li>
+            <li><img class = "unique" src="./img/2.jpg"></li>
             <li><img src="./img/3.jpg"></li>
             <li><img src="./img/4.jpg"></li>
           </ul>
@@ -38,47 +38,100 @@
       // .data() 要素のdata属性を取得します。
       // .width() 要素の幅を取得します。
       // .length 要素の個数を取得します。
-      $(function(){
-        var imgWidth = $('.slider-list img').width();
-        // console.log(imgWidth)
-        var slideLength = $('.slider-list img').length;
-        // console.log(slideLength);
+
+      $(function() {
         var slideIndex = 0;
-        var slideDist = []
-        for (slideIndex = 0; slideIndex < slideLength; slideIndex++){
-          slideDist[slideIndex] = slideIndex *- imgWidth;  
+        var slideLength = $('.slider-list img').length
+        var imgWidth = [];
+        var slideDist = [];
+        var dist = 0
+        for (var n = 0; n < slideLength; n++){
+          imgWidth.push($('.slider-list img').eq(n).width());
+          dist -= imgWidth[n];
+          // console.log(dist);
+          slideDist.push(dist + imgWidth[n])
         }
-        // console.log(slideDist);
-        $('.slider-ctrl-btn').click(function(){
+        $('.slider-ctrl-btn').click(function() {
           var btnData = $(this).data('ctrl');
-          // console.log(btnData);
-          function slideAnime(){
+          var slideAnime = function(){
             $('.slider-list').stop().animate({
-              left:slideDist[slideIndex]
+              left: slideDist[slideIndex]
             }, 500);
-          }          
-          if(btnData ==='next'){
+          }
+          if(btnData === 'prev') {
+            slideIndex--;
+            slideAnime();
+            if(slideIndex < 0) {
+              $('.slider-list').stop().animate({
+                left:slideDist[slideLength - 1]
+              }, 500);              
+              slideIndex = slideLength - 1
+            }
+          }else if(btnData === 'next') {
             slideIndex++;
             slideAnime();
             if(slideIndex > slideLength - 1){
               $('.slider-list').stop().animate({
                 left:0
-              },500);
+              }, 500);
               slideIndex = 0;
             }
-          }else if(btnData === 'prev'){
-            slideIndex--;
-            slideAnime();
-            if(slideIndex < 0){
-              $('.slider-list').stop().animate({
-                left:(slideLength - 1) *-imgWidth
-              },500);
-              slideIndex = slideLength - 1;
-            }
           }
-          // console.log(slideIndex)
+          console.log(slideIndex);
+          // console.log(slideDist[slideIndex]);
         });
       });
+    
+
+      // $(function() {
+      //   var slideIndex = 0;
+      //   var slideLength = $('.slider-list img').length; //slideLength = 4
+      //   var imgWidth = [] //[400, 400, 600, 600]
+      //   var slideDist = [] //[0, 400, 800 , 1400]
+      //   var dist = 0;
+      //   var x = 0;
+      //   for (var n = 0; n < slideLength; n++){
+      //     imgWidth.push($('.slider-list img').eq(n).width());
+      //     dist -= imgWidth[n];
+      //     slideDist.push(dist + imgWidth[n]);
+      //     console.log(slideDist)
+      //     // if(n < slideLength-1){
+      //     //   x -= imgWidth[n]
+      //     //   // dist -= imgWidth[n]
+      //     //   console.log(x);
+      //     // }
+      //   }
+      //   $('.slider-ctrl-btn').click(function() {
+      //     var btnData = $(this).data('ctrl'); 
+      //     //  console.log(btnData);
+      //     var slideAnime = function() {
+            // $('.slider-list').stop().animate({
+            //   left:slideDist[slideIndex]
+            // }, 500);
+      //     }
+      //     if(btnData ==='next'){
+      //       slideIndex++;
+      //       slideAnime();
+      //       if(slideIndex > slideLength - 1){
+      //         $('.slider-list').stop().animate({
+      //           left:0
+      //         },500);
+      //         slideIndex = 0;
+      //       }
+      //     }else if(btnData === 'prev'){
+      //       slideIndex--;
+      //       slideAnime();
+      //       if(slideIndex < 0){
+      //         $('.slider-list').stop().animate({
+      //           // left:x
+      //           left:dist + imgWidth[n]
+      //           // left:dist + imgWidth[n]
+      //         },500);
+      //         slideIndex = slideLength - 1;
+      //       } 
+      //     }
+      //   });
+      // });
 
 
 
