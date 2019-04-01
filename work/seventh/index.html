@@ -39,42 +39,87 @@
       // .width() 要素の幅を取得します。
       // .length 要素の個数を取得します。
       $(function(){
-        var slideCurrent = $('.slider-list li').index();
-          // console.log(slideCurrent);
-        var slideWidth = $('.slider-area').width();
-          // console.log(slideWidth);
-        var slideLength = $('.slider-list li').length;
-          // console.log(slideLength);
+        var imgWidth = $('.slider-list img').width();
+        // console.log(imgWidth)
+        var slideLength = $('.slider-list img').length;
+        // console.log(slideLength);
+        var slideIndex = 0;
+        var slideDist = []
+        for (slideIndex = 0; slideIndex < slideLength; slideIndex++){
+          slideDist[slideIndex] = slideIndex *- imgWidth;  
+        }
+        // console.log(slideDist);
         $('.slider-ctrl-btn').click(function(){
           var btnData = $(this).data('ctrl');
-          var sliding = function() {
-            $('.slider-list').stop().animate({
-              left:slideCurrent *-slideWidth
-            },500);
-          }
           // console.log(btnData);
-          if(btnData === 'next'){
-            slideCurrent++;
-            sliding();
-            // console.log(slideCurrent);
-            if(slideCurrent > 3){
+          function slideAnime(){
+            $('.slider-list').stop().animate({
+              left:slideDist[slideIndex]
+            }, 500);
+          }          
+          if(btnData ==='next'){
+            slideIndex++;
+            slideAnime();
+            if(slideIndex > slideLength - 1){
               $('.slider-list').stop().animate({
                 left:0
               },500);
-              slideCurrent = 0;
+              slideIndex = 0;
             }
           }else if(btnData === 'prev'){
-            slideCurrent--;
-            sliding();
-            if(slideCurrent < 0){
+            slideIndex--;
+            slideAnime();
+            if(slideIndex < 0){
               $('.slider-list').stop().animate({
-                left:3*-slideWidth
+                left:(slideLength - 1) *-imgWidth
               },500);
-              slideCurrent = 3;
+              slideIndex = slideLength - 1;
             }
           }
+          // console.log(slideIndex)
         });
       });
+
+
+
+
+      // $(function(){
+      //   var slideCurrent = $('.slider-list li').index();
+      //     // console.log(slideCurrent);
+      //   var slideWidth = $('.slider-area').width();
+      //     // console.log(slideWidth);
+      //   var slideLength = $('.slider-list li').length;
+      //     // console.log(slideLength);
+      //   $('.slider-ctrl-btn').click(function(){
+      //     var btnData = $(this).data('ctrl');
+      //     var sliding = function() {
+      //       $('.slider-list').stop().animate({
+      //         left:slideCurrent *-slideWidth
+      //       },500);
+      //     }
+      //     // console.log(btnData);
+      //     if(btnData === 'next'){
+      //       slideCurrent++;
+      //       sliding();
+      //       // console.log(slideCurrent);
+      //       if(slideCurrent > 3){
+      //         $('.slider-list').stop().animate({
+      //           left:0
+      //         },500);
+      //         slideCurrent = 0;
+      //       }
+      //     }else if(btnData === 'prev'){
+      //       slideCurrent--;
+      //       sliding();
+      //       if(slideCurrent < 0){
+      //         $('.slider-list').stop().animate({
+      //           left:3*-slideWidth
+      //         },500);
+      //         slideCurrent = 3;
+      //       }
+      //     }
+      //   });
+      // });
     </script>
   </body>
 </html>
