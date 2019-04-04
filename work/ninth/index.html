@@ -29,7 +29,7 @@
       // .done(function(data) {
       //   console.log(data);
       // });
-      // //
+      //
       // 今回の場合は同じ階層にあるdata.jsonに対してリクエストを飛ばして、中にあるオブジェクトを取得します。
       // そのオブジェクトは
       // .done(function(data) {
@@ -45,11 +45,31 @@
       
       // このテンプレートに取得してきた中身を入れて表示します。
       $(function(){
-        var listItem = [];
+        var listElem = '<li class="colorList__item"><p class="colorList__title" style="background-color: ;"></p></li>'
+        var sertIn = 0;
         for(var n = 0; n < 7; n++ ){
-          listElem = '<li class="colorList__item"><p class="colorList__title" style="background-color: ;"></p></li>'
+          sertIn = $('.colorList').append(listElem);
         }
-        $('.color')
+        $.ajax({
+        url: './data.json'
+      })
+      .done(function(data) {
+        console.log(data);
+      });
+        // $.ajax({
+        //   url:'data.json'
+        // })
+        // .done(function(data){
+        //   $.each(function() {
+        //     $(this).html(colorsArray[n].colorName)
+        //   });
+        // });
+          // $.ajax({
+            //   url: './data.json'
+        // })
+        // .done(function(data) {
+        //   $('colorList__title').css('background-color', colorsArray[n].hexValue)
+        // })
 
         // for append
       });

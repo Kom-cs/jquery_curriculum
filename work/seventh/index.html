@@ -40,41 +40,41 @@
       // .length 要素の個数を取得します。
 
       $(function() {
-        var slideIndex = 0;
-        var slideLength = $('.slider-list img').length
-        var imgWidth = [];
-        var slideDist = [];
-        var dist = 0
+        var slideIndex = 0; //表示されている画像のインデックス番号の初期値
+        var slideLength = $('.slider-list img').length　//画像のlengthを取得
+        var imgWidth = [];　//各画像のwidthの値を配列として格納する変数
+        var slideDist = []; //スライドする距離の値の配列
+        var dist = 0　//スライド距離を算出するための画像のwidthの累計の変数の初期値
         for (var n = 0; n < slideLength; n++){
-          imgWidth.push($('.slider-list img').eq(n).width());
-          dist -= imgWidth[n];
-          // console.log(dist);
-          slideDist.push(dist + imgWidth[n])
+          imgWidth.push($('.slider-list img').eq(n).width()); //インデックス番号をnとして繰り返し処理に適用
+          dist -= imgWidth[n];　//n番目までの全ての画像のwidthの累計を算出する数式
+          // console.log(dist); 
+          slideDist.push(dist + imgWidth[n]) //widthの累計 - n番目の画像のwidth = n番目の画像を表示するためのスライド距離
         }
-        $('.slider-ctrl-btn').click(function() {
-          var btnData = $(this).data('ctrl');
-          var slideAnime = function(){
+        $('.slider-ctrl-btn').click(function() { //クリックをイベントに設定
+          var btnData = $(this).data('ctrl'); //スライドのトリガーとなるボタンのデータを取得
+          var slideAnime = function(){　
             $('.slider-list').stop().animate({
               left: slideDist[slideIndex]
-            }, 500);
+            }, 500);　// 0.5秒でインデックス番号に即した移動距離分だけleftを取る処理を設定
           }
-          if(btnData === 'prev') {
-            slideIndex--;
+          if(btnData === 'prev') {　//ボタンのデータがprevを条件に設定
+            slideIndex--;　　//クリックでインデックス番号が1ずつ減る
             slideAnime();
-            if(slideIndex < 0) {
-              $('.slider-list').stop().animate({
+            if(slideIndex < 0) {　//スライド画像のインデックス番号が0未満のとき
+              $('.slider-list').stop().animate({　
                 left:slideDist[slideLength - 1]
-              }, 500);              
-              slideIndex = slideLength - 1
+              }, 500);              //0.5秒で末尾の画像に移動
+              slideIndex = slideLength - 1　　//インデックス番号に末尾の画像の番号を代入
             }
-          }else if(btnData === 'next') {
-            slideIndex++;
+          }else if(btnData === 'next') {　//ボタンのデータがnextのとき
+            slideIndex++;　　//クリックするたびにインデックス番号を1増やす
             slideAnime();
-            if(slideIndex > slideLength - 1){
+            if(slideIndex > slideLength - 1){　//画像のインデックス番号がlength - 1(末尾)のとき
               $('.slider-list').stop().animate({
                 left:0
-              }, 500);
-              slideIndex = 0;
+              }, 500); //0.5秒でleft = 0の位置まで移動
+              slideIndex = 0; //画像のインデックス番号に0を代入
             }
           }
           console.log(slideIndex);
