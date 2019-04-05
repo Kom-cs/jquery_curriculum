@@ -46,7 +46,7 @@
         var slideDist = []; //スライドする距離の値の配列
         var dist = 0　//スライド距離を算出するための画像のwidthの累計の変数の初期値
         for (var n = 0; n < slideLength; n++){
-          imgWidth.push($('.slider-list img').eq(n).width()); //インデックス番号をnとして繰り返し処理に適用
+          imgWidth.push($('.slider-list img').eq(n).width()); //インデックス番号を変数nとして繰り返し処理に適用
           dist -= imgWidth[n];　//n番目までの全ての画像のwidthの累計を算出する数式
           // console.log(dist); 
           slideDist.push(dist + imgWidth[n]) //widthの累計 - n番目の画像のwidth = n番目の画像を表示するためのスライド距離
