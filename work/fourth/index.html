@@ -62,13 +62,16 @@
       // 　 溜まってしまった余計な処理を全消去して直後のアニメーションだけにする。
       $(function() {
         $('.menu__list').children().hover(function() {
-          // var list = $(this).index();
-          // $('.menu__list__childList').eq(list).stop().slideDown()
-          $(this).find('.menu__list__childList').stop().slideDown()
-        }, function() {
-          var list = $(this).index();
-          $('.menu__list__childList').eq(list).stop().slideUp()
+          $(this).find('.menu__list__childList').stop().slideDown();
+        },function() {
+          $(this).find('.menu__list__childList').stop().slideUp();
         });
+          // var list = $(this).index();
+        //   $(this).find('.menu__list__childList').stop().slideDown();
+        // }, function() {
+        //   var list = $(this).index();
+        //   $('.menu__list__childList').eq(list).stop().slideUp();
+        // });
       });
     </script>
   </body>

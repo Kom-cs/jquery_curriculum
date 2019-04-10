@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="format-detection" content="telephone=no">
-    <title>jQuery</title>
+    <title>jQuery 10</title>
     <link rel="stylesheet" href="../../common/css/reset.css">
     <link rel="stylesheet" href="../../common/css/base.css">
     <link rel="stylesheet" href="./css/style.css">
@@ -67,7 +67,33 @@
       // </li>
       //
       //
-      //
+      $(function(){
+        $.ajax({
+        url: 'https://app.rakuten.co.jp/services/api/BooksTotal/Search/20130522',
+        type: 'GET',
+        datatype: 'json',
+        data: {
+          applicationId: '1019399324990976605', 
+          booksGenreId: '001',
+        },
+      }).done(function(data) {
+        // console.log(data);
+        $('#js-search-word').change(function(){
+          console.log($(this).text());
+        });
+      });
+      });
+
+        // pwd : C:\Users\Kom-cs\Desktop\Project\Gizumo\jquery
+
+        //  ls
+        //  bin/   Cmder.exe*   config/   icons/   LICENSE   vendor/  'Version 1.3.11.843'
+
+        //　cd \Users\Kom-cs\Desktop\Project\Gizumo\jquery
+
+        // python -m http.server 8000
+
+        // 10番　=>　localhost:8000/work/tenth/
     </script>
   </body>
 </html>

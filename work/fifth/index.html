@@ -99,19 +99,45 @@
       // .change() セレクトボックスの値の変更をキャッチする関数
       // $().each() DOM要素を1つずつループ処理をする（ループ内で$(this)を使うと要素がひとつずつ取得できる）
       $(function() {
-        $('.select').change(function() {
+        $('.select').change(function(){
           var value = $(this).val();
+          console.log(value);
           $('.list').find('li').hide();
           if(value === 'all'){
             $('.list').find('li').show();
           }else {
-            $('.list').find('li').each(function(num, category) {
-              if(value === $(category).data('category-type')){      
+            $('.list').find('li').each(function(index, category) {
+              if(value === $(category).data('category-type')){
                 $(category).show();
-              };
+                console.log(category);
+              }
             });
-          };
-        });          
+          }
+        });
+
+        var test = ['gizumo', 'yahoo', 'google', 'FireFox', 'Safari', 'InternetExplorer'];
+        $.each(test, function(index, company) {
+          console.log(index);      
+          console.log(company);
+          console.log(index, company);
+        });
+        
+
+        
+        
+        // $('.select').change(function() {
+        //   var value = $(this).val();
+        //   $('.list').find('li').hide();
+        //   if(value === 'all'){
+        //     $('.list').find('li').show();
+        //   }else {
+        //     $('.list').find('li').each(function(num, category) {
+        //       if(value === $(category).data('category-type')){      
+        //         $(category).show();
+        //       };
+        //     });
+        //   };
+        // });          
       });
       
       // セレクトボックス要素の値選択をchangeをイベントとして設定。

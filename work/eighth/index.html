@@ -51,10 +51,10 @@
             $('.scrollTopBtn').fadeOut(500);　//トップへ移動するボタンがボタンがフェードアウト
           }
         });
-        
         $('.scrollTopBtn').click(function(){　//トップへ移動するボタンをクリックしたとき
           $('html, body').animate({ scrollTop:0});　//トップが0pxの位置まで移動(一番上へ移動)
         });
+        
         $('.menu__btn').click(function(){　//メニューのボタンのクリックをイベントに設定
           var scrollData = $(this).data('scroll-place-type');　//クリックしたボタンのデータを取得
           $('.title').each(function(num, titleText){　//イベントの対象となる要素を第二引数に変数として設定

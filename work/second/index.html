@@ -28,13 +28,28 @@
       // .fadeIn() 一定時間かけてフェードインする。
       // .fadeOut() 一定時間かけてフェードアウトする。
       $(function() {
-        $('.modal-show').click(function(){
-          $('.modal').fadeIn(500);
-        });
+        // $('.modal-show').click(function(){
+        //   $('.modal').fadeIn(500);
+        // });
+        // $('.modal-close').click(function() {
+        //   $('.modal').fadeOut(500);
+        // });
+
+
+      //demo
+      //   $('.modal-show').click(function(){
+      //     $('.modal').fadeIn(10);          
+      //   });
+      // });
+      $('.modal-show').click(f);
+      function f(){
+        $('.modal').fadeIn(1000);
+      }
         $('.modal-close').click(function() {
           $('.modal').fadeOut(500);
         });
-      });
+    });
+
     </script>
   </body>
 </html>
