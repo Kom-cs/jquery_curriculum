@@ -44,74 +44,78 @@
       // </li>
       
       // このテンプレートに取得してきた中身を入れて表示します。
+      // ※appendだけ、もしくはhtmlだけ
       $(function(){
-        // $.ajax({
-        //   url:'./data.json'
-        // })
-        // .done(function(data) {
-        //   $.each(data.colorsArray, function(num, colorList){
-        //     $('.colorList').append('<li class="colorList__item"><p class="colorList__title" style="background-color:' + colorList.hexValue + ';">'+ colorList.colorName +'</p></li>');
-        //     // console.log(data.colorsArray);
-        //     // console.log(colorList);
-        //     // console.log(colorList.hexValue)
-        //   });
-        // }); 
         $.ajax({
           url:'./data.json'
         })
         .done(function(data) {
-          $.each(data.colorsArray, function(num, colorList){
-            $('.colorList').append('<li class="colorList__item"></li>');
-            $('.colorList__item').eq(num).html('<p class="colorList__title" style="background-color:' + colorList.hexValue + ';">'+ colorList.colorName +'</p>');
-
-          // $.each(data.colorsArray, function (num, colorList){
-          //   $('.colorList').append('<div class="listBox"></div>');
-          //   $('.listBox').eq(num).html('<li class="colorList__item"><p class="colorList__title" style="background-color:' + colorList.hexValue + ';">' + colorList.colorName + '</p></li>');
-
-          // $.each(data.colorsArray, function(num, colorList){
-          //   $('.colorList').append('<li class="colorList__item"><p class="colorList__title" style="background-color:' + colorList.hexValue + ';">'+ colorList.colorName +'</p></li>');
-
-          // $.each(data.colorsArray, function(num, colorList){
-            // $('.colorList').append('<div class="listBox"></div>');
-            // $('.listBox').eq(num).html('<li class="colorList__item"><p class="colorList__title" style="background-color:' + colorList.hexValue + ';">'+ colorList.colorName +'</p></li>');
-              // console.log(data.colorsArray);
-              // console.log(colorList);
-              // console.log(num);
-              // console.log($('.listBox').length);
-              console.log($('.colorList__item').index());
-              // console.log($('.colorList__item').length);
-              // console.log(colorList.colorName);
-              // console.log(colorList.hexValue)
-          });
+            var totalList = '';
+            $.each(data.colorsArray, function(index, colorList){
+              totalList += "<li class='colorList__item'><p class='colorList__title' style='background-color:" + colorList.hexValue + ";'>"+ colorList.colorName +"</p></li>";
+              // console.log(totalList);
+            });
+              $('.colorList').html(totalList);
         });
-        // var test = ['gizumo', 'yahoo', 'google'];
-        // $.each(test, function(index, company) {
-        //   console.log(company);
-        //   console.log(index);
-        // });
-        // $.each(配列, function(index, elem) {
-        //   ……配列要素に対する任意の処理……
-        // });
 
+        // $.ajax({
+        //   url:'./data.json'
+        // })
+        // .done(function(data) {
+        //   $.each(data.colorsArray, function(index, colorList){
+        //     $('.colorList').append('<li class="colorList__item"><p class="colorList__title" style="background-color:' + colorList.hexValue + ';">'+ colorList.colorName +'</p></li>');
+        //     console.log(colorList);
+        //   });
 
+        // var cssList = [
+        //   {
+        //     x:10,
+        //     y:'#f23'
+        //   },
+        //   {
+        //     x:20,
+        //     y:'#f34'
+        //   },
+        //   {
+        //     x:30,
+        //     y:'#f45'
+        //   },
+        //   {
+        //     x:40,
+        //     y:'#f56'
+        //   },
+        //   {
+        //     x:50,
+        //     y:'#f78'
+        //   }
+        // ]
 
-
-        //         C:\Users\Kom-cs\Desktop\Project\cmder
-        // λ pwd : C:\Users\Kom-cs\Desktop\Project\Gizumo\jquery
-        // C:\Users\Kom-cs\Desktop\Project\cmder
-
-        // C:\Users\Kom-cs\Desktop\Project\cmder
-        // λ ls
-        //  bin/   Cmder.exe*   config/   icons/   LICENSE   vendor/  'Version 1.3.11.843'
-
-        // C:\Users\Kom-cs\Desktop\Project\cmder
-        // λ cd \Users\Kom-cs\Desktop\Project\Gizumo\jquery
-
-        // python -m http.server 8000
-
-        // 9番　=>　localhost:8000/work/ninth/
+        //   $.each(cssList, function addElem(index, listObj){
+        //     $('.colorList').html('<li class="testList colorList__item" style="padding:' + listObj.x + 'px; background-color:'+ listObj.y + ';color:#fff;"><p class="text" style="background-color:#f99; text-align:center; padding:10px">testingObj</p></li>')
+        //     console.log(listObj.x);
+        //     console.log(listObj.y);
+        //   });
+      // });
       });
     </script>
   </body>
-</html>
+  </html>
+  <!-- $.each(配列, function(index, elem) { 
+  //   ……配列要素に対する任意の処理……
+  // });
+
+  //         C:\Users\Kom-cs\Desktop\Project\cmder
+  // λ pwd : C:\Users\Kom-cs\Desktop\Project\Gizumo\jquery
+  // C:\Users\Kom-cs\Desktop\Project\cmder
+
+  // C:\Users\Kom-cs\Desktop\Project\cmder
+  // λ ls
+  //   bin/   Cmder.exe*   config/   icons/   LICENSE   vendor/  'Version 1.3.11.843'
+
+  // C:\Users\Kom-cs\Desktop\Project\cmder
+  // λ cd \Users\Kom-cs\Desktop\Project\Gizumo\jquery
+
+  // python -m http.server 8000
+
+  // 9番　localhost:8000/work/ninth/ -->
 
