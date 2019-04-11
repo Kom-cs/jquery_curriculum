@@ -11,7 +11,7 @@
   </head>
   <body>
     <div class="wrap">
-      <div class="container">
+      <div class="container">                              
         <div class="header">
           <p class="header__title">Search Books!</p>
         </div>
@@ -52,51 +52,59 @@
       //   console.log(data);
       // });
       //
-      //
       // $.ajaxによってデータが取得できたら、必要なデータ(作品名とか作者名とか)を取得します。
       // 取得できたらHTMLに<ul class='lists'></ul>を用意しているので、その中に下のテンプレに沿ってデータを入れ込みましょう。
-      // <li class='lists__item'>
-      //  <div class='lists__item__inner'>
-      //    <a href='' class='lists__item__link' target='_blank'>
-      //      <img src='' class='lists__item__img' alt=''>
-      //      <p class='lists__item__detail'>作品名：</p>
-      //      <p class='lists__item__detail'>作者　：</p>
-      //      <p class='lists__item__detail'>出版社：</p>
-      //    </a>
-      //  </div>
-      // </li>
+      // <li class='lists__item'><div class='lists__item__inner'><a href='' class='lists__item__link' target='_blank'><img src='' class='lists__item__img' alt=''><p class='lists__item__detail'>作品名：</p><p class='lists__item__detail'>作者　：</p><p class='lists__item__detail'>出版社：</p></a></div></li>
       //
       //
-      $(function(){
-        $.ajax({
-        url: 'https://app.rakuten.co.jp/services/api/BooksTotal/Search/20130522',
-        type: 'GET',
-        datatype: 'json',
-        data: {
-          applicationId: '1019399324990976605', 
-          booksGenreId: '001',
-        },
-      }).done(function(data) {
-        // console.log(data);
-        $('#js-search-word').change(function(){
-          console.log($(this).text());
+      $(function(){                    
+        var bookList = ''
+        var searchWord = '';
+        var clickNum = 0;
+        $('#js-search-button').click(function(){
+          searchWord = $('#js-search-word').val();
+          $.ajax({
+            url: 'https://app.rakuten.co.jp/services/api/BooksTotal/Search/20130522',
+            type: 'GET',
+            datatype: 'json',
+            data: {
+              applicationId: '1019399324990976605', 
+              booksGenreId: '001',
+              keyword: searchWord,
+              hits: 20
+            },
+          }).done(function(jsonData) {
+            // console.log(jsonData.hits);
+            console.log(jsonData);
+            $.each(jsonData.Items, function(index, itemInfo){
+              bookList += "<li class='lists__item'><div class='lists__item__inner'><a href='" + itemInfo.Item.itemUrl + "' class='lists__item__link' target='_blank'><img src='" + itemInfo.Item.largeImageUrl + "' class='lists__item__img' alt='" + itemInfo.Item.title + "'><p class='lists__item__detail'>作品名：" + itemInfo.Item.title + "</p><p class='lists__item__detail'>作者　：" + itemInfo.Item.author + "</p><p class='lists__item__detail'>出版社：" + itemInfo.Item.publisherName + "</p></a></div></li>";
+            });
+            $('.lists').html(bookList);
+            // console.log(bookList);
+            // console.log(searchWord);
+          });
         });
-      });
       });
 
       // GETはなにかを取得するときに使うべきものです。
       // POSTはなにかを新しく登録するときに使うものです。
 
-        // pwd : C:\Users\Kom-cs\Desktop\Project\Gizumo\jquery
+      // pwd : C:\Users\Kom-cs\Desktop\Project\Gizumo\jquery
 
-        //  ls
-        //  bin/   Cmder.exe*   config/   icons/   LICENSE   vendor/  'Version 1.3.11.843'
+      //  ls
+      //  bin/   Cmder.exe*   config/   icons/   LICENSE   vendor/  'Version 1.3.11.843'
 
-        //　cd \Users\Kom-cs\Desktop\Project\Gizumo\jquery
+      //　cd \Users\Kom-cs\Desktop\Project\Gizumo\jquery
 
-        // python -m http.server 8000
+      // python -m http.server 8000
 
-        // 10番　=>　localhost:8000/work/tenth/
+      // 10番　=>　localhost:8000/work/tenth/
+
+      // .done()。。。。成功したときの処理
+      // .fail()。。。。失敗したときの処理
+      // jqXHRオブジェクト（jqXHR）
+      // 応答ステータス（status）
+      // エラー情報（error）
     </script>
   </body>
 </html>
