@@ -58,11 +58,33 @@
       //
       //
       $(function(){                    
-        var bookList = ''
+        var bookList = '';
+        var countNum = 0;
+        var isOnline = navigator.onLine;
+        var pageNum = 1;
+        var preSearchWord ='';
         var searchWord = '';
-        var clickNum = 0;
-        $('#js-search-button').click(function(){
-          searchWord = $('#js-search-word').val();
+
+        $('#js-search-button').on('click', function(){
+          getSearchWord();
+          countPage();
+          ajaxProcess();
+        });
+
+        function getSearchWord(){
+          searchWord = $('#js-search-word').val();          
+        }
+
+        function countPage(){
+          if(searchWord === preSearchWord){
+            pageNum++;
+          }else if(searchWord !== preSearchWord){
+            pageNum = 1;
+            $('.lists').empty();
+          }
+        }
+
+        function ajaxProcess(){
           $.ajax({
             url: 'https://app.rakuten.co.jp/services/api/BooksTotal/Search/20130522',
             type: 'GET',
@@ -71,40 +93,115 @@
               applicationId: '1019399324990976605', 
               booksGenreId: '001',
               keyword: searchWord,
-              hits: 20
+              count: countNum,
+              hits: 20,
+              page: pageNum
             },
-          }).done(function(jsonData) {
-            // console.log(jsonData.hits);
-            console.log(jsonData);
-            $.each(jsonData.Items, function(index, itemInfo){
+          })
+          .done(function(data) {
+            $.each(data.Items, function(index, itemInfo){
               bookList += "<li class='lists__item'><div class='lists__item__inner'><a href='" + itemInfo.Item.itemUrl + "' class='lists__item__link' target='_blank'><img src='" + itemInfo.Item.largeImageUrl + "' class='lists__item__img' alt='" + itemInfo.Item.title + "'><p class='lists__item__detail'>作品名：" + itemInfo.Item.title + "</p><p class='lists__item__detail'>作者　：" + itemInfo.Item.author + "</p><p class='lists__item__detail'>出版社：" + itemInfo.Item.publisherName + "</p></a></div></li>";
             });
-            $('.lists').html(bookList);
-            // console.log(bookList);
-            // console.log(searchWord);
+            if (data.count > 0){
+              $('.lists').prepend(bookList);
+              bookList = '';
+            }else if(data.count == 0){
+             noHit();
+            }
+            preSearchWord = searchWord;
+          })
+          .fail(function(data){
+            $('.lists').empty();
+            $('.message').remove();
+            failAlert(data);
           });
-        });
+        }
+
+        function noHit() {
+          if(countNum == 0) {
+            $('.lists').prepend('<div class="dummy"></div>')
+            $('.dummy').html('<div class="message">検索結果が見つかりませんでした。</br>別のキーワードで検索して下さい。</div>');
+            $('.dummy').eq(1).remove();
+          }
+        }
+
+        function failAlert(data){
+          if(isOnline === true){
+            if(data.responseJSON.error_description === 'keyword must be set'){
+              alert('キーワードを入力してください。');
+            }else if(data.responseJSON.error_description ==='keyword length must be over 2 characters'){
+              alert('1文字では検索できません。')
+            }else if(data.responseJSON.error_description === 'number of allowed requests has been exceeded for this API. please try again soon.'){
+              alert('1度にリクエストを多く送信し過ぎています。');
+            }
+          }else{
+            alert('ネット接続がありません。') 
+          }
+        }
       });
 
-      // GETはなにかを取得するときに使うべきものです。
-      // POSTはなにかを新しく登録するときに使うものです。
 
-      // pwd : C:\Users\Kom-cs\Desktop\Project\Gizumo\jquery
+      // API  【 Application Programming Interface 】 
+      // APIとは、あるコンピュータプログラム（ソフトウェア）の機能や管理するデータなどを、外部の他のプログラムから呼び出して利用するための手順やデータ形式などを定めた規約のこと。
+      // データへアクセスして、ノウハウやコードそのものを共有出来るようにすることで業務の効率化を図るためにつくられたプログラミングにおける規約のライブラリ(資料のデータ)。
+      // 「API」＝「機能＋仕様書」
 
-      //  ls
-      //  bin/   Cmder.exe*   config/   icons/   LICENSE   vendor/  'Version 1.3.11.843'
 
-      //　cd \Users\Kom-cs\Desktop\Project\Gizumo\jquery
+      // ajaxメソッドを使った際の通信のタイプに、GETとPOSTがある。
+      // GETはサーバーにリクエストを送ってデータを取得するための通信方法。
+      // POSTはサーバーにデータを登録するための通信方法。
+      // 今回はキーワードをリクエストして書籍のデータを取得することが目的なのでGETを使用する。
 
-      // python -m http.server 8000
+      // GETは情報を取得するためにサーバーにリクエストを送るときに使うものです。
+        // データをリクエストURLの後に付与して送信する。
+        // 　　　（Webサーバやプロキシサーバのアクセスログなどに残る）
+        // 他の人がURLを見ると、入力したデータが丸見えになってしまう。
+        // 　　　（ログイン画面などではIDやパスワードが他者から丸見えになるのでGET送信は使用するべきではない）
+        // URLの後に付与するのでデータ量（文字数）に制限が掛かる。
+        // 　　　（Internet Explorer のURLに使用できる最大文字数は最大2,048 文字）
+        // GETはHTTPヘッダ情報に含まれるため、簡単に取得することが可能。
+        // テキストデータのみ送信可能。
 
-      // 10番　=>　localhost:8000/work/tenth/
+       // POSTはサーバーに情報を新しく登録するときに使うものです。
+        // データ量が多い場合はPOSTを使用する。
+        // POSTはBODY部分（form）に含まれるため、取得がちょっと面倒。
+        // テキスト、バイナリどちらでも送信可能。
+        // テキストファイルとは、 文字を表すデータ、つまり、文字コード表に載っているデータだけが書かれているファイル。
+        // バイナリファイルとは、 それ以外のファイルすべて。
+        // 画像ファイルや音楽ファイルなど、簡単に言ってしまうとメモ帳で開けないファイルはすべてバイナリファイルです。
+        // POST送信後にブラウザの戻るボタン押下で有効期間切れが発生する場合がある。
 
-      // .done()。。。。成功したときの処理
-      // .fail()。。。。失敗したときの処理
-      // jqXHRオブジェクト（jqXHR）
-      // 応答ステータス（status）
-      // エラー情報（error）
+        // pwd : C:\Users\Kom-cs\Desktop\Project\Gizumo\jquery
+
+        //  ls
+        //  bin/   Cmder.exe*   config/   icons/   LICENSE   vendor/  'Version 1.3.11.843'
+
+        //　cd \Users\Kom-cs\Desktop\Project\Gizumo\jquery
+
+        // python -m http.server 8000
+
+        // 10番　=>　localhost:8000/work/tenth/
+
+        // .done()。。。。成功したときの処理
+        // .fail()。。。。失敗したときの処理
+        // jqXHRオブジェクト（jqXHR）
+        // 応答ステータス（status）
+        // エラー情報（error）
+
+
+        // console.log(bookList);
+        // console.log(index);
+        // console.log(isOnline);
+        // console.log(searchWord);
+        // console.log(listLength)
+        // console.log(itemInfo);
+        // console.log(jsonData.count);
+        // console.log(jsonData.hits);
+        // console.log(data.responseJSON);
+        // var letterNum = 0;
+        // var letterType = '';
+        // letterNum = $('#js-search-word').val().replace(/\s+/g,'').length;
+        // letterType = $('#js-search-word').val().match(/^[0-9a-zA-Z]+$/);
     </script>
   </body>
 </html>

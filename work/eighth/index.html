@@ -57,7 +57,7 @@
         
         $('.menu__btn').click(function(){　//メニューのボタンのクリックをイベントに設定
           var scrollData = $(this).data('scroll-place-type');　//クリックしたボタンのデータを取得
-          $('.title').each(function(num, titleText){　//イベントの対象となる要素を第二引数に変数として設定
+          $('.title').each(function(index, titleText){　//イベントの対象となる要素を第二引数に変数として設定
             if(scrollData === $(titleText).data('scroll-place-type')){　//ボタンのデータ＝テキストのタイトルのデータならば
               var elementTop = $(titleText).offset().top;　//取得した要素のトップを取得して変数に代入
               $('html, body').animate({ scrollTop: elementTop });　//取得した要素の位置までスクロール
