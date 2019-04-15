@@ -60,16 +60,16 @@
       $(function(){                    
         var bookList = '';
         var countNum = 0;
-        var isOnline = navigator.onLine;
-        var pageNum = 1;
+        var pageNum = 0;
         var preSearchWord ='';
         var searchWord = '';
+        var isOnline = navigator.onLine;
 
         $('#js-search-button').on('click', function(){
-          clickRequest();
+          searchRequest();
         });
 
-        function clickRequest(){
+        function searchRequest(){
           searchWord = $('#js-search-word').val();
           if(searchWord === preSearchWord){
             pageNum++;
@@ -108,9 +108,8 @@
             $('.lists').prepend(bookList);
             bookList = '';
           }else if(countNum == 0){
-            $('.lists').before('<div class="dummy"></div>')
-            $('.dummy').html('<div class="message">検索結果が見つかりませんでした。</br>別のキーワードで検索して下さい。</div>');
-            $('.dummy').eq(1).remove();
+            $('.lists').before('<div class="message">検索結果が見つかりませんでした。</br>別のキーワードで検索して下さい。</div>');
+            $('.message').eq(1).remove();
           }
           preSearchWord = searchWord;
         }
