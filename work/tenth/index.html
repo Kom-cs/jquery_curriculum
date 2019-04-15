@@ -78,10 +78,14 @@
         function countPage(){
           if(searchWord === preSearchWord){
             pageNum++;
-          }else if(searchWord !== preSearchWord){
+          }else　{
             pageNum = 1;
-            $('.lists').empty();
+            listReset();
           }
+        }
+
+        function listReset(){
+          $('.lists').empty();          
         }
 
         function ajaxProcess(){
@@ -103,6 +107,7 @@
               bookList += "<li class='lists__item'><div class='lists__item__inner'><a href='" + itemInfo.Item.itemUrl + "' class='lists__item__link' target='_blank'><img src='" + itemInfo.Item.largeImageUrl + "' class='lists__item__img' alt='" + itemInfo.Item.title + "'><p class='lists__item__detail'>作品名：" + itemInfo.Item.title + "</p><p class='lists__item__detail'>作者　：" + itemInfo.Item.author + "</p><p class='lists__item__detail'>出版社：" + itemInfo.Item.publisherName + "</p></a></div></li>";
             });
             if (data.count > 0){
+              $('.dummy').remove();
               $('.lists').prepend(bookList);
               bookList = '';
             }else if(data.count == 0){
@@ -111,7 +116,7 @@
             preSearchWord = searchWord;
           })
           .fail(function(data){
-            $('.lists').empty();
+            listReset();
             $('.message').remove();
             failAlert(data);
           });
@@ -119,7 +124,7 @@
 
         function noHit() {
           if(countNum == 0) {
-            $('.lists').prepend('<div class="dummy"></div>')
+            $('.lists').before('<div class="dummy"></div>')
             $('.dummy').html('<div class="message">検索結果が見つかりませんでした。</br>別のキーワードで検索して下さい。</div>');
             $('.dummy').eq(1).remove();
           }
