@@ -58,22 +58,19 @@
       //
       //
       $(function(){                    
-        var bookList = '';
-        var countNum = 0;
         var pageNum = 0;
         var preSearchWord ='';
-        var searchWord = '';
-        var isOnline = navigator.onLine;
 
         $('#js-search-button').on('click', function(){
           searchRequest();
         });
 
         function searchRequest(){
-          searchWord = $('#js-search-word').val();
+          var searchWord = $('#js-search-word').val();
           if(searchWord === preSearchWord){
             pageNum++;
           }else　{
+            preSearchWord = searchWord;
             pageNum = 1;
             $('.lists').empty();
           }
@@ -85,7 +82,6 @@
               applicationId: '1019399324990976605', 
               booksGenreId: '001',
               keyword: searchWord,
-              count: countNum,
               hits: 20,
               page: pageNum
             },
@@ -99,34 +95,31 @@
         }
 
         function listUp(data) {
-          $.each(data.Items, function(index, itemInfo){
+          var bookList = '';
+          $('.message').remove();
+          if (data.count > 0){
+            $.each(data.Items, function(index, itemInfo){
               bookList += "<li class='lists__item'><div class='lists__item__inner'><a href='" + itemInfo.Item.itemUrl + "' class='lists__item__link' target='_blank'><img src='" + itemInfo.Item.largeImageUrl + "' class='lists__item__img' alt='" + itemInfo.Item.title + "'><p class='lists__item__detail'>作品名：" + itemInfo.Item.title + "</p><p class='lists__item__detail'>作者　：" + itemInfo.Item.author + "</p><p class='lists__item__detail'>出版社：" + itemInfo.Item.publisherName + "</p></a></div></li>";
             });
-          if (data.count > 0){
-            $('.message').remove();
-            $('.lists').empty();
             $('.lists').prepend(bookList);
-            bookList = '';
-          }else if(countNum == 0){
+          }else {
             $('.lists').before('<div class="message">検索結果が見つかりませんでした。</br>別のキーワードで検索して下さい。</div>');
-            $('.message').eq(1).remove();
-          }
-          preSearchWord = searchWord;
+          }          
         }
 
         function failAlert(data){
           $('.message').remove();
           $('.lists').empty();
-          if(isOnline === true){
-            if(data.responseJSON.error_description === 'keyword must be set'){
-              alert('キーワードを入力してください。');
-            }else if(data.responseJSON.error_description ==='keyword length must be over 2 characters'){
-              alert('1文字では検索できません。')
-            }else if(data.responseJSON.error_description === 'number of allowed requests has been exceeded for this API. please try again soon.'){
-              alert('1度にリクエストを多く送信し過ぎています。');
-            }
-          }else{
-            alert('ネット接続がありません。') 
+          if (!data.responseJSON) {
+            alert('インターネット接続がありません。');
+          } else if(data.responseJSON.error_description === 'keyword must be set'){
+            alert('キーワードを入力してください。');
+          }else if(data.responseJSON.error_description ==='keyword length must be over 2 characters'){
+            alert('1文字では検索できません。')
+          }else if(data.responseJSON.error_description === 'number of allowed requests has been exceeded for this API. please try again soon.'){
+            alert('1度にリクエストを多く送信し過ぎています。');
+          } else {
+            alert(data.responseJSON.error_description)
           }
         }
       });
